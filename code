@@ -1,0 +1,41 @@
+import torch
+from diffusers import StableDiffusionPipeline
+import matplotlib.pyplot as plt
+from PIL import Image
+from google.colab import files  # Import for download
+
+# Set up your Hugging Face API Token
+HF_TOKEN = "your_hugging_face_api_key"  # Replace with your token
+
+# Load the model from Hugging Face (using API token)
+pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4", use_auth_token=HF_TOKEN)
+
+# Move model to GPU if available (use CPU as fallback)
+pipe.to("cuda" if torch.cuda.is_available() else "cpu")
+
+# Function to generate an image from a text description
+def generate_image_from_description(description: str):
+    # Generate image from the given description
+    print(f"Generating image for: {description}")
+    with torch.no_grad():
+        image = pipe(description).images[0]
+    return image
+
+# Prompt the user for a description
+description = input("Enter a description for the image you want to generate: ")
+
+# Generate the image based on user input
+generated_image = generate_image_from_description(description)
+
+# Display the generated image using matplotlib
+plt.imshow(generated_image)
+plt.axis("off")  # Hide axes for a cleaner view
+plt.show()
+
+# Save the image locally
+output_path = "generated_outfit.png"
+generated_image.save(output_path)
+print(f"Image saved as '{output_path}'")
+
+# Provide a download link for the generated image
+files.download(output_path)  # This enables users to download the file
