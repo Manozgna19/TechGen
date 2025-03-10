@@ -5,7 +5,7 @@ from PIL import Image
 from google.colab import files  # Import for download
 
 # Set up your Hugging Face API Token
-HF_TOKEN = "your_hugging_face_api_key"  # Replace with your token
+HF_TOKEN = "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"  # Replace with your token
 
 # Load the model from Hugging Face (using API token)
 pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4", use_auth_token=HF_TOKEN)
